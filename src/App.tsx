@@ -12,6 +12,7 @@ export const App: FC = () => {
     state.blocks.find(({ parentId }) => parentId === "")
   );
   const {
+    ref,
     menu,
     trigger,
     blockId,
@@ -22,11 +23,13 @@ export const App: FC = () => {
 
   return (
     <div>
-      <Dropdown menu={menu} trigger={trigger}>
-        <div>
-          <Block {...mainBlock} />
-        </div>
-      </Dropdown>
+      {!!mainBlock && (
+        <Dropdown menu={menu} trigger={trigger}>
+          <div ref={ref}>
+            <Block {...mainBlock} />
+          </div>
+        </Dropdown>
+      )}
       {isShowAddMenu && <AddMenu blockId={blockId} setBlockId={setBlockId} />}
       {isShowChangeMenu && (
         <ChangeMenu blockId={blockId} setBlockId={setBlockId} />

@@ -1,18 +1,19 @@
 import { Flex, Input, Select, Typography } from "antd";
 import { FC } from "react";
-import { SETTINGS } from "../consts";
+import { SETTINGS, TAGS } from "../consts";
 
 const { Text } = Typography;
 
 type SettingsProps = {
-  blockSettings: any;
-  setBlockSettings: (style: any) => void;
+  blockSettings: Record<keyof typeof SETTINGS, string | TAGS>;
+  setBlockSettings: (style: Record<keyof typeof SETTINGS, string | TAGS>) => void;
 };
 
 export const Settings: FC<SettingsProps> = ({
   blockSettings,
   setBlockSettings,
 }) => {
+  console.log(`???blockSettings`, blockSettings)
   return (
     <>
       {Object.entries(SETTINGS).map(([name, settings]) => (
@@ -32,9 +33,9 @@ export const Settings: FC<SettingsProps> = ({
               name={name}
               placeholder={settings.placeholder}
               value={blockSettings?.[name] || ""}
-              onChange={({ target: { value } }) =>
+              onChange={({ target: { value } }) => {
                 setBlockSettings({ ...blockSettings, [name]: value })
-              }
+              }}
             />
           )}
         </Flex>

@@ -1,20 +1,23 @@
 import { useSelector } from "react-redux";
-import { ComponentMap, TAGS } from "../consts";
+import { TAGS } from "../consts";
 import { FC } from "react";
 import { RootState } from "../store";
+import { useComponentsMap } from "../hooks";
+import { Style } from "../types";
 
 export type BlockProps = {
   parentId: string;
   id: string;
   name: string;
   innerText: string;
-  style: object;
+  style: Style;
   tag: TAGS;
 }
 
 export const Block: FC<BlockProps> = ({ id, innerText, tag, style }) => {
+  const componentsMap = useComponentsMap();
   const blocks = useSelector((state: RootState) => state.blocks.filter(({ parentId }) => id === parentId));
-  const Component = ComponentMap[tag];
+  const Component = componentsMap[tag];
 
   return (
     <>

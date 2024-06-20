@@ -20,9 +20,16 @@ export const StyleSettings: FC<StyleSettingsProps> = ({ style, setStyle }) => {
               type={settings.type}
               placeholder={settings.placeholder}
               value={style?.[name]?.value || ""}
-              onChange={({ target: { value } }) =>
-                setStyle({ ...style, [name]: { ...style[name], value } })
-              }
+              onChange={({ target: { value } }) => {
+                setStyle({
+                  ...style,
+                  [name]: {
+                    ...style[name],
+                    value,
+                    ...((settings.unit && (!style[name] || !style[name]?.unit)) ? { unit: settings.unit[0] } : {}),
+                  },
+                });
+              }}
               addonAfter={
                 settings?.unit ? (
                   <Select
