@@ -1,11 +1,10 @@
-import { FC, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ACTIONS, RootState } from "../store";
-import { TAGS } from "../consts";
-import { parseSettings } from "../utils";
+import { FC } from "react";
+import { useDispatch } from "react-redux";
+import { ACTIONS } from "../store";
 import { Button, Divider, Drawer, Flex } from "antd";
 import { Settings } from "./settings";
 import { StyleSettings } from "./styleSettings";
+import { useSettings } from "../hooks";
 
 type ChangeMenuProps = {
   blockId: string | null;
@@ -15,25 +14,11 @@ type ChangeMenuProps = {
 export const ChangeMenu: FC<ChangeMenuProps> = ({ blockId, setBlockId }) => {
   const dispatch = useDispatch();
   const {
-    id,
-    parentId,
-    style: blockStyle,
-    ...block
-  } = useSelector(
-    (state: RootState) =>
-      state.blocks.find(({ id }) => id === blockId) || {
-        style: {},
-        tag: TAGS.div,
-      }
-  );
-
-  const [blockSettings, setBlockSettings] = useState({});
-  const [style, setStyle] = useState({});
-
-  useEffect(() => {
-    setStyle(parseSettings(blockStyle));
-    setBlockSettings(block);
-  }, [blockId]);
+    blockSettings,
+    setBlockSettings,
+    style,
+    setStyle,
+  } = useSettings({ blockId });
 
   return (
     <Drawer

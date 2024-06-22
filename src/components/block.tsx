@@ -16,7 +16,7 @@ export type BlockProps = {
 
 export const Block: FC<BlockProps> = ({ id, innerText, tag, style }) => {
   const componentsMap = useComponentsMap();
-  const blocks = useSelector((state: RootState) => state.blocks.filter(({ parentId }) => id === parentId));
+  const blocks = useSelector((state: RootState) => state.blocks);
   const Component = componentsMap[tag];
 
   return (
@@ -24,7 +24,7 @@ export const Block: FC<BlockProps> = ({ id, innerText, tag, style }) => {
       {!!Component && (
         <Component id={id} style={style}>
           {innerText || ''}
-          {blocks.map((block) => <Block key={block.id} {...block} />)}
+          {blocks.filter(({ parentId }) => id === parentId).map((block) => <Block key={block.id} {...block} />)}
         </Component>
       )}
     </>

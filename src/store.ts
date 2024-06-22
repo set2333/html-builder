@@ -14,6 +14,19 @@ const findBlocksForDelete = (id, blocks) => {
   ];
 };
 
+const usedStyleSettingsSlice = createSlice({
+  name: 'usedStyleSettings',
+  initialState: ['background', 'display', 'width', 'height'],
+  reducers: {
+    addSettings: (state, action) => {
+      state.push(action.payload);
+    },
+    removeSettings: (state, action) => {
+      return state.filter(setting => setting!== action.payload);
+    }
+  },
+});
+
 const blocksSlice = createSlice({
   name: "blocks",
   initialState: [
@@ -53,6 +66,7 @@ const blocksSlice = createSlice({
 export const store = configureStore({
   reducer: {
     blocks: blocksSlice.reducer,
+    usedStyleSettings: usedStyleSettingsSlice.reducer,
   },
 });
 
@@ -62,4 +76,5 @@ export type AppDispatch = typeof store.dispatch;
 
 export const ACTIONS = {
   ...blocksSlice.actions,
+  ...usedStyleSettingsSlice.actions,
 };

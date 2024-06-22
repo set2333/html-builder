@@ -1,29 +1,34 @@
-import { Flex, Input, Select, Typography } from "antd";
+import { Card, Flex, Input, Select, Typography } from "antd";
 import { FC } from "react";
-import { SETTINGS, TAGS } from "../consts";
+import { SETTINGS } from "../consts";
+import { SettingsKey, Settings as SettingsType, SettingsValue } from "../types";
 
 const { Text } = Typography;
 
 type SettingsProps = {
-  blockSettings: Record<keyof typeof SETTINGS, string | TAGS>;
-  setBlockSettings: (style: Record<keyof typeof SETTINGS, string | TAGS>) => void;
+  blockSettings: Partial<SettingsType>;
+  setBlockSettings: (style: Partial<SettingsType>) => void;
 };
 
 export const Settings: FC<SettingsProps> = ({
   blockSettings,
   setBlockSettings,
 }) => {
-  console.log(`???blockSettings`, blockSettings)
   return (
-    <>
-      {Object.entries(SETTINGS).map(([name, settings]) => (
+    <Card title="Settings">
+      {Object.entries(SETTINGS).map((param) => {
+        const name = param[0] as SettingsKey;
+        const settings = param[1] as SettingsValue;
+        const settingsValue = blockSettings?.[name];
+
+        return (
         <Flex key={name} style={{ marginBottom: "10px" }}>
           <Text style={{ width: "25%" }}>{settings.label}</Text>
           {settings.type === "select" ? (
             <Select
               style={{ width: "100%" }}
-              value={blockSettings?.[name]}
-              options={[...settings.options]}
+              value={settingsValue}
+              options={[...settings?.options || []]}
               onChange={(value) =>
                 setBlockSettings({ ...blockSettings, [name]: value })
               }
@@ -32,14 +37,14 @@ export const Settings: FC<SettingsProps> = ({
             <Input
               name={name}
               placeholder={settings.placeholder}
-              value={blockSettings?.[name] || ""}
+              value={`${settingsValue || ''}`}
               onChange={({ target: { value } }) => {
                 setBlockSettings({ ...blockSettings, [name]: value })
               }}
             />
           )}
         </Flex>
-      ))}
-    </>
+      )})}
+    </Card>
   );
 };

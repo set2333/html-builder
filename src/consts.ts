@@ -1,8 +1,10 @@
+import { SettingsKey, SettingsValue } from "./types";
+
 export const MAIN_BLOCK_ID = 'MAIN_BLOCK_ID';
 
 export enum TAGS { div, span, a, h1, h2, h3, h4, h5, h6, p }
 
-export const SETTINGS = {
+export const SETTINGS: Record<SettingsKey, SettingsValue> = {
   tag: {
     type: 'select',
     label: 'Tag',
@@ -56,6 +58,17 @@ export const STYLE_SETTINGS = {
     label: 'Color',
     placeholder: 'Enter block color',
     unit: null,
+  },
+  display: {
+    type: 'select',
+    label: 'Display',
+    placeholder: 'Enter block display',
+    unit: null,
+    options: [
+      { value: 'block', label: 'block' },
+      { value: 'flex', label: 'flex' },
+      { value: 'inline-flex', label: 'inline-flex' },
+    ],
   },
   paddingTop: {
     type: 'number',

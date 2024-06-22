@@ -17,13 +17,13 @@ export const useContextMenu = () => {
         label: "Add block",
         onClick: () => setIsShowAddMenu(true),
       },
-      {
-        key: "change",
-        label: "Change block",
-        onClick: () => setIsShowChangeMenu(true),
-      },
       ...(blockId !== MAIN_BLOCK_ID
         ? [
+            {
+              key: "change",
+              label: "Change block",
+              onClick: () => setIsShowChangeMenu(true),
+            },
             {
               key: "remove",
               label: "Remove block",
